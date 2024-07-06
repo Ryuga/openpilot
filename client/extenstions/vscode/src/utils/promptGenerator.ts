@@ -12,30 +12,16 @@ export class OllamaClient extends ApiClient {
     async* readStream(endpoint: string, data: any) {
         let controller = new AbortController();
         try {
-            // let resp = await this.apiClient.post(
-            //     "http://127.0.0.1:11434/api/generate/", 
-            //     data,
-            //     {signal: controller.signal},
-            // )
-            let resp = await fetch("http://localhost:11434" + endpoint, {
-                method: 'POST',
-                body: JSON.stringify(data),
-                headers: {
-                      'Content-Type': 'application/json',
-                    },
-                signal: controller.signal,
-              });
-            
+            let resp = await this.apiClient.post(
+                "http://127.0.0.1:11434/api/generate/", 
+                data,
+                {signal: controller.signal},
+            )
+            console.log("Logging model response:" + resp);
+;            
             if (!resp.ok || !resp.body) {
                 throw Error('Unable to connect to backend');
             }
-            // resp.data.on('data', (chunk: any) => {
-            //     console.log(chunk)
-            //   });
-            
-            //   resp.data.on('end', () => {
-            //     console.log("completed")
-            //   });
             let reader = resp.body.getReader();
             const decoder = new TextDecoder();
             let buffer = '';
@@ -57,14 +43,14 @@ export class OllamaClient extends ApiClient {
             }
         }
         catch (error) {
-        if (axios.isCancel(error)) {
-            console.log('Request canceled', error.message);
-        } else {
-            console.error('Fetch error:', error);
-        }
+            if (axios.isCancel(error)) {
+                console.log('Request canceled', error.message);
+            } else {
+                console.error('Fetch error:', error);
+            }
         } finally {
-        controller.abort();
-        console.log("Aborting...")
+            controller.abort();
+            console.log("Aborting...")
         }
         
     }
