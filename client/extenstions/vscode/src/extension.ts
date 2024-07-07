@@ -9,7 +9,8 @@ export function activate(context: vscode.ExtensionContext) {
 		provider
 	);
 	context.subscriptions.push(disposable);
-	  
+	
+	
 	console.log('Congratulations, your extension "openpilot" is now active!');
 
 	const dispose = vscode.commands.registerCommand('openpilot.helloWorld', () => {
