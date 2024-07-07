@@ -32,3 +32,10 @@ export type LanguageConfig = {
         endIdentifier: string | null
     }
 }
+
+export type Config = {
+    backendType: string,
+    inferenceUrl: string,
+    paused: string,
+    ignoreList: string,
+}
