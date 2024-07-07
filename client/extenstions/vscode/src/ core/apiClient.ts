@@ -4,12 +4,14 @@ export class ApiClient {
   apiClient: any;
   constructor(
     baseUrl: string,
-    headers = { "Content-Type": "application/json" },
+    responseType: string = "json",
+    headers: Object = { "Content-Type": "application/json" },
   ) {
     this.apiClient = axios.create({
       baseUrl: baseUrl,
       headers: headers,
       timeout: 10000,
+      responseType: responseType
     });
   }
 
@@ -21,9 +23,9 @@ export class ApiClient {
     }
   }
 
-  async post(endpoint: string, data: any, signal: any) {
+  async post(endpoint: string, data: any, params = {}) {
     try {
-      return await this.apiClient.post(endpoint, data, {signal: signal});
+      return await this.apiClient.post(endpoint, data, { params });
     } catch (error) {
       this.handleError(error);
     }
@@ -46,7 +48,7 @@ export class ApiClient {
 
   async handleError(error: any) {
     if (error.response) {
-      console.error(`Error:: ", Status: ${error.response.status}:: Resp: ${error.response.data}`);
+      console.error(`Error:: "Status: ${error.response.status}:: Resp: ${error.response.data}`);
     } else if (error.request) {
       console.error("Error request:", error.request);
     } else {
