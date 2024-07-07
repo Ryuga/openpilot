@@ -23,8 +23,8 @@ export function activate(context: vscode.ExtensionContext) {
 	});
 
 	let reload = vscode.commands.registerCommand('openpilot.reload', () => {
-		Config.loadConfig();
-		vscode.window.showInformationMessage('openpilot loaded');
+		let loaded = Config.loadConfig();
+		vscode.window.showInformationMessage(loaded ? 'openpilot successfully loaded' : 'something went wrong while loading openpilot');
 	});
 
 	context.subscriptions.push(toggle);

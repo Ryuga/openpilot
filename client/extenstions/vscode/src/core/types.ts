@@ -36,6 +36,6 @@ export type LanguageConfig = {
 export type Config = {
     backendType: string,
     inferenceUrl: string,
-    paused: string,
-    ignoreList: string,
+    paused: boolean,
+    ignoreList: string[],
 }

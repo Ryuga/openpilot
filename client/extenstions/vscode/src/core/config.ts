@@ -8,21 +8,18 @@ let _paused:boolean = false;
 let _ignoreList: string[] = [];
 let _backendType: string = "server";
 let _inferenceUrl: string = "http://localhost:8000";
-let _rawConfig: any = null;
+let _rawConfig: Config;
 
-const readConfig = () => {
-    fs.readFile(CONFIG_FILE, 'utf8', (err: any, data: any) => {
-        if (err) {
-            console.error('Error reading config::', err);
-        }
-        try {
-            _rawConfig = JSON.parse(data) || null;
-            console.log(_rawConfig)
-            return _rawConfig
-        } catch (err) {
-            console.error('Error parsing config file::', err);
-        }
-    });
+const readConfig = ():boolean => {
+    try{
+        let data = fs.readFileSync(CONFIG_FILE, 'utf-8');
+        _rawConfig = JSON.parse(data)
+        return true
+    }
+    catch(err){
+        console.error('Error parsing config file::', err);
+    }
+    return false
 }
 
 export default { 
@@ -32,8 +29,18 @@ export default {
     getBackend():string {return _backendType},
     setInferenceUrl(val: string):string {return _inferenceUrl=val},
     getInferenceUrl():string {return _inferenceUrl},
-    pushIgnoreFile(file: string){ return _ignoreList.push(file)},
-    popIgnoreFile(file: string){ _ignoreList.splice(_ignoreList.indexOf(file), 1)},
+    pushIgnoreList(file: string){ return _ignoreList.push(file)},
+    popIgnoreList(file: string){ _ignoreList.splice(_ignoreList.indexOf(file), 1)},
+    getIgnoreList(){ return _ignoreList },
     loadConfig(){
+        if(readConfig())
+        {
+            this.setPaused(_rawConfig.paused);
+            this.setBackend(_rawConfig.backendType);
+            this.setInferenceUrl(_rawConfig.inferenceUrl);
+            _rawConfig.ignoreList.forEach(item=> this.pushIgnoreList(item));
+            return true;
+        }
+        return false;
     }
 }
