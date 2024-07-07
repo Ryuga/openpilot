@@ -16,8 +16,12 @@
   "contributes": {
     "commands": [
       {
-        "command": "openpilot.helloWorld",
-        "title": "Hello World"
+        "command": "openpilot.reload",
+        "title": "Reload Config"
+      },
+      {
+        "command": "openpilot.toggle",
+        "title": "Toggle Pilot"
       }
     ],
     "icons": {
