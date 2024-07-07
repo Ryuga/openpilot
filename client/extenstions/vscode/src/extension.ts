@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import { CompletionProvider } from './providers/completionProvider';
+import Config from "./core/config"
 
 export function activate(context: vscode.ExtensionContext) {
 
@@ -10,14 +11,26 @@ export function activate(context: vscode.ExtensionContext) {
 	);
 	context.subscriptions.push(disposable);
 	
-	
-	console.log('Congratulations, your extension "openpilot" is now active!');
+	let status = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
+	status.command = 'openpilot.toggle';
+	status.text = `$(ghost-icon)`;
+	status.show();
+	context.subscriptions.push(status);
 
-	const dispose = vscode.commands.registerCommand('openpilot.helloWorld', () => {
-		vscode.window.showInformationMessage('Hello World from openpilot!');
+	let toggle = vscode.commands.registerCommand('openpilot.toggle', () => {
+		Config.setPaused(!Config.getPaused())
+		vscode.window.showInformationMessage(`openpilot is now  ${Config.getPaused() ? "deactivated" : "activated"}`);
 	});
 
-	context.subscriptions.push(dispose);
+	let reload = vscode.commands.registerCommand('openpilot.reload', () => {
+		Config.loadConfig();
+		vscode.window.showInformationMessage('openpilot loaded');
+	});
+
+	context.subscriptions.push(toggle);
+	context.subscriptions.push(reload);
+
+	vscode.commands.executeCommand("openpilot.reload");
 }
 
 export function deactivate() {}

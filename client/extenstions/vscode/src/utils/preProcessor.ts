@@ -1,7 +1,7 @@
 import vscode from 'vscode';
-import { getLanguageConfig } from '../ core/language';
-import { getModelConfig } from '../ core/models';
-import { LanguageConfig, PreProcessedPrompt } from '../ core/types';
+import { getLanguageConfig } from '../core/language';
+import { getModelConfig } from '../core/models';
+import { LanguageConfig, PreProcessedPrompt } from '../core/types';
 let config = {
     model: "stable-code:3b-code-q4_0" 
 }

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ApiClient } from "../ core/apiClient";
+import { ApiClient } from "../core/apiClient";
 
 export class OllamaClient{
     

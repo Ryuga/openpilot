@@ -9,7 +9,9 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
@@ -17,7 +19,16 @@
         "command": "openpilot.helloWorld",
         "title": "Hello World"
       }
-    ]
+    ],
+    "icons": {
+      "ghost-icon": {
+          "description": "Ghost icon",
+          "default": {
+              "fontPath": "./src/icons/icons.woff",
+              "fontCharacter": "\\E900"
+          }
+      }  
+    }
   },
   "scripts": {
     "vscode:prepublish": "yarn run compile",

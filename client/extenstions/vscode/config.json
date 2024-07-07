@@ -1,0 +1,6 @@
+{
+    "backendType": "server",
+    "inferenceUrl": "http://localhost:8000",
+    "paused": false,
+    "ignoreList": []
+}
